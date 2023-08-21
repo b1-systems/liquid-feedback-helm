@@ -1,0 +1,15 @@
+apiVersion: v1
+entries:
+  liquid-feedback:
+  - apiVersion: v2
+    appVersion: 4.4.0
+    created: "2023-08-21T14:35:51.823332417+02:00"
+    description: A Helm chart for LiquidFeedback. A software for proposal development
+      and decision making.
+    digest: ded5f92e3e14e757307bb6dc0e2bf02cbfa6880a0f42b90bdcb32a1519f2f866
+    name: liquid-feedback
+    type: application
+    urls:
+    - https://github.com/b1-systems/liquid-feedback-helm/releases/download/liquid-feedback-0.8.0/liquid-feedback-0.8.0.tgz
+    version: 0.8.0
+generated: "2023-08-21T14:35:51.823351099+02:00"
