@@ -48,6 +48,8 @@ spec:
           #     mountPath: /etc/secret-volume
           #     readOnly: true
           env:
+            - name: PIDFILE
+              value: "/lfupdate.pid"
             - name: DBUSER
               value: {{ .Values.postgresql.username }}
             - name: DBNAME

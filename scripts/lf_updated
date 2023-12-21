@@ -1,6 +1,6 @@
 #!/bin/sh
 
-PIDFILE="/var/run/lf_updated.pid"
+PIDFILE="${PIDFILE:-/var/run/lf_updated.pid}"
 PID=$$
 
 LFUSER="${LFUSER:-lf}"
@@ -20,9 +20,20 @@ fi
 
 echo "${PID}" > "${PIDFILE}"
 
+if [ "$EUID" -eq 0 ]; then
+  run () {
+    su -s bash ${LFUSER} -c "$1"
+  }
+else
+  run () {
+    bash -c "$1"
+  }
+fi
+
+
 while true; do
-  su -s /bin/bash ${LFUSER} -c "nice /opt/lf/bin/lf_update host=${DBHOST} dbname=${DBNAME} user=${DBUSER} password=${DBPASS}"
-  su -s /bin/bash ${LFUSER} -c "nice /opt/lf/bin/lf_update_issue_order host=${DBHOST} dbname=${DBNAME} user=${DBUSER} password=${DBPASS}"
-  su -s /bin/bash ${LFUSER} -c "nice /opt/lf/bin/lf_update_suggestion_order host=${DBHOST} dbname=${DBNAME} user=${DBUSER} password=${DBPASS}"
+  run "nice /opt/lf/bin/lf_update host=${DBHOST} dbname=${DBNAME} user=${DBUSER} password=${DBPASS}"
+  run "nice /opt/lf/bin/lf_update_issue_order host=${DBHOST} dbname=${DBNAME} user=${DBUSER} password=${DBPASS}"
+  run "nice /opt/lf/bin/lf_update_suggestion_order host=${DBHOST} dbname=${DBNAME} user=${DBUSER} password=${DBPASS}"
   sleep 5
 done
